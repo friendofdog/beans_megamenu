@@ -1,0 +1,74 @@
+.bmm-megamenu {
+    top: 90px;
+    padding: 50px;
+    position: fixed;
+    height: calc(~'100vh - 90px');
+    background-color: @brand-color;
+    // display: none;
+}
+
+.bmm-megamenu .bmm-megamenu-cta li {
+    font-size: 2em;
+    margin: 16px 0;
+}
+
+.bmm-megamenu .uk-nav li a {
+    text-decoration: none;
+    display: inline-block;
+
+    -moz-transition: all @transition-speed ease-in;
+    -o-transition: all @transition-speed ease-in;
+    -webkit-transition: all @transition-speed ease-in;
+    transition: all @transition-speed ease-in;
+}
+
+.bmm-megamenu .uk-nav li a:hover { 
+    color: @contrast-font-color;
+}
+
+.bmm-megamenu .bmm-megamenu-cta li a i {
+    width: 90px;
+}
+
+.bmm-megamenu .bmm-megamenu-main li {
+    font-size: 1.5em;
+    margin: 16px 0;
+}
+
+.tm-header {
+    padding: 0;
+    background-color: #fff;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.uk-navbar-nav > li {
+    padding: 0;
+}
+
+.uk-navbar-nav > li a {
+    height: 90px;
+    padding: 24px;
+    font-size: 20px;
+}
+
+.uk-navbar-nav > li.bmm-overlay-trigger {
+    background-color: @brand-color;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.uk-navbar-nav > li:hover > a, .uk-navbar-nav > li > a:focus, .uk-navbar-nav > li.uk-open > a, .uk-navbar-nav > li:hover, .uk-navbar-nav > li.uk-open {
+    background-color: @brand-color-light;
+    color: @primary-font-color;
+    outline: none;
+}
+
+.uk-navbar-nav > li > a:active {
+    background-color: @brand-color-light;
+    color: @primary-font-color;
+}
+
+.uk-navbar-nav > li.uk-active > a, .uk-navbar-nav > li.uk-active {
+    background-color: @brand-color-light;
+    color: @primary-font-color;
+}
