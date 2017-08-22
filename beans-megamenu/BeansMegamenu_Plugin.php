@@ -10,15 +10,24 @@ class Walker_Megamenu_Top extends Walker {
     );
 
     function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-        $output .= sprintf( "\n<li id='menu-item-%s' class='bmm-megamenu-cta-item menu-item menu-item-type-post_type menu-item-object-page menu-item-%s'><a data-uk-toggle='target: &#39;#bmm-menu-item-description-%s&#39;' id='bmm-megamenu-cta-%s' href='%s'><i class='uk-icon-large %s'></i> %s</a></li>\n",
+
+        // print_r($item->classes);
+
+        $output .= sprintf( "\n
+            <li id='menu-item-%s' class='%s bmm-megamenu-cta-item menu-item-%s'>
+                <a data-uk-toggle='target: &#39;.bmm-megamenu-cta-%s-show&#39;' id='bmm-megamenu-cta-%s'>
+                    <i class='uk-icon-large uk-margin-right %s'></i><span>%s</span>
+                </a>
+            </li>\n",
+            $item->ID,
+            implode( " ", $item->classes),
             $item->ID,
             $item->ID,
             $item->ID,
-            $item->ID,
-            $item->url,
             $item->post_excerpt,
             $item->title
         );
+
     }
 
 }
@@ -31,10 +40,47 @@ class Walker_Megamenu_Description extends Walker {
     );
 
     function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-        $output .= sprintf( "\n<div id='bmm-menu-item-description-%s' class='uk-hidden'>%s</div>\n",
-            $item->ID,
-            $item->description
-        );
+
+        if ( ! $item->menu_item_parent && $item->post_content != ' ' ) {
+
+            $output .= sprintf( "\n
+                <li class='%s bmm-description bmm-megamenu-cta-%s-show uk-hidden'>
+                    <p>%s</p>
+                    <a href='%s'>%s</a>
+                </li>\n",
+                implode( " ", $item->classes),
+                $item->ID,
+                $item->post_content,
+                $item->url,
+                $item->title
+            );
+
+        } else if ( $item->menu_item_parent ) {
+
+            $output .= sprintf( "\n
+                <li class='%s bmm-megamenu-cta-%s-show uk-width-1-2 uk-float-left uk-hidden'>
+                    <a href='%s'>%s</a>
+                </li>\n",
+                implode( " ", $item->classes),
+                $item->menu_item_parent,
+                $item->url,
+                $item->title
+            );
+
+        } else {
+
+            $output .= sprintf( "\n
+                <li class='%s bmm-description bmm-megamenu-cta-%s-show uk-hidden'>
+                    <a href='%s'>%s</a>
+                </li>\n",
+                implode( " ", $item->classes),
+                $item->ID,
+                $item->url,
+                $item->title
+            );
+
+        }
+
     }
 
 }
@@ -222,7 +268,7 @@ class BeansMegamenu_Plugin extends BeansMegamenu_LifeCycle {
 
         <div id="megamenu-overlay" class="uk-overlay-panel uk-hidden bmm-megamenu">
             <div class="uk-grid">
-                <div class="uk-width-1-2">
+                <div class="uk-width-2-5">
                     <?php wp_nav_menu( array( 
                         'menu' => 'Megamenu top',
                         'menu_class' => '',
@@ -230,15 +276,18 @@ class BeansMegamenu_Plugin extends BeansMegamenu_LifeCycle {
                         'container_class' => 'uk-nav bmm-megamenu-cta',
                         'theme_location' => 'megamenu-cta',
                         'walker' => new Walker_Megamenu_Top(),
+                        'depth' => 1,
                     ) ); ?>
                 </div>
-                <div class="uk-width-1-2">
+                <div class="uk-width-3-5">
                     <?php wp_nav_menu( array( 
                         'menu' => 'Megamenu top',
                         'menu_class' => '',
                         'container' => 'div',
                         'container_class' => 'bmm-megamenu-description',
                         'theme_location' => 'megamenu-cta',
+                        'before' => '<div>',
+                        'after' => '</div>',
                         'walker' => new Walker_Megamenu_Description(),
                     ) ); ?>
                 </div>
